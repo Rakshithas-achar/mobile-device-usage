@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mobile Device Usage Dashboard</title>
+    <!-- Bootstrap CSS for responsive layout -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js Library for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            margin-bottom: 10px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 200px;
+        }
+
+        .row {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Dashboard Header -->
+    <div class="container dashboard-header">
+        <h1 class="display-4">Mobile Device Usage Dashboard</h1>
+        <p class="lead">Insights into user behavior and device usage</p>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Pie Chart Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Device Distribution
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="devicePieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bar Chart Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        Screen On Time Per Day (hrs)
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="screenOnBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Line Chart Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        Daily Active Users (DAU)
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="dauLineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Donut Chart Card -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header bg-warning text-white">
+                        OS Market Share
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="osDonutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Radar Chart Card -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        User Engagement
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="engagementRadarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script for Charts -->
+    <script>
+        // Pie Chart: Device Distribution
+        var ctx = document.getElementById('devicePieChart').getContext('2d');
+        var devicePieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Smartphones', 'Tablets', 'Wearables', 'Other'],
+                datasets: [{
+                    label: 'Device Distribution',
+                    data: [60, 25, 10, 5],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+            }
+        });
+
+        // Bar Chart: Screen On Time per Day (hours)
+        var ctx = document.getElementById('screenOnBarChart').getContext('2d');
+        var screenOnBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Device 1', 'Device 2', 'Device 3', 'Device 4'],
+                datasets: [{
+                    label: 'Screen On Time (hrs/day)',
+                    data: [5, 8, 3, 6],
+                    backgroundColor: '#4caf50',
+                    borderColor: '#388e3c',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Line Chart: Daily Active Users
+        var ctx = document.getElementById('dauLineChart').getContext('2d');
+        var dauLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                datasets: [{
+                    label: 'DAU (in thousands)',
+                    data: [120, 130, 140, 150, 160, 170, 180],
+                    borderColor: '#42a5f5',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Donut Chart: OS Market Share
+        var ctx = document.getElementById('osDonutChart').getContext('2d');
+        var osDonutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Android', 'iOS', 'Windows', 'Others'],
+                datasets: [{
+                    data: [70, 25, 3, 2],
+                    backgroundColor: ['#8e24aa', '#29b6f6', '#f44336', '#ffee58'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+            }
+        });
+
+        // Radar Chart: User Engagement
+        var ctx = document.getElementById('engagementRadarChart').getContext('2d');
+        var engagementRadarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['App Usage', 'Screen Time', 'Social Media', 'Gaming', 'Shopping'],
+                datasets: [{
+                    label: 'User Engagement',
+                    data: [80, 90, 70, 85, 75],
+                    backgroundColor: 'rgba(66, 165, 245, 0.2)',
+                    borderColor: '#42a5f5',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS (optional, but for responsiveness) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
+
+{% endblock %}
